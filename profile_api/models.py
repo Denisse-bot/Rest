@@ -5,6 +5,7 @@ from django.contrib.auth.models import BaseUserManager
 
 class UserProfileManager(BaseUserManager):
     "Admin para Perfiles de Usuarios"
+
     def create_user(self, email, name, password= None):
         "Crear Nuevo Perfil de Usuario"
         if not email:
@@ -25,11 +26,13 @@ class UserProfileManager(BaseUserManager):
         user.is_staff = True
         user.save(using=self._db)
 
+        return user
+
 
 class UserProfile(AbstractBaseUser, PermissionsMixin):
     "Modelo BD para users en el sistema"
     email = models.EmailField(max_length=200, unique= True)
-    name = models.Charfield(max_length=200)
+    name = models.CharField(max_length=200)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
 
